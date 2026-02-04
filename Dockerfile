@@ -42,6 +42,13 @@ RUN huggingface-cli download Qwen/Qwen3-8B \
     --local-dir /comfyui/models/HY-Motion/ckpts/Qwen3-8B
 
 # =============================================================================
+# Custom node pour exposer NPZ via websocket
+# =============================================================================
+
+# Copier le custom node qui wrappe SaveNPZ pour exposer l'output
+COPY custom_motion_save.py /comfyui/custom_nodes/custom_motion_save.py
+
+# =============================================================================
 # Configuration finale
 # =============================================================================
 
