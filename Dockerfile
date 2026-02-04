@@ -39,16 +39,10 @@ RUN huggingface-cli download openai/clip-vit-large-patch14 \
 RUN huggingface-cli download Qwen/Qwen3-8B \
     --local-dir /comfyui/models/HY-Motion/ckpts/Qwen3-8B
 
-# -----------------------------------------------------------------------------
-# Download SMPL body model for motion generation
-# -----------------------------------------------------------------------------
-RUN mkdir -p /comfyui/models/HY-Motion/body_models && \
-    cd /comfyui/models/HY-Motion/body_models && \
-    wget -O smpl_neutral.pkl "https://huggingface.co/tencent/HY-Motion-1.0/resolve/main/body_models/smpl/SMPL_NEUTRAL.pkl"
-
 # =============================================================================
 # Configuration finale
 # =============================================================================
 
 ENV PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:512
+ENV USE_HF_MODELS=1
 WORKDIR /comfyui
