@@ -40,9 +40,17 @@ RUN huggingface-cli download Qwen/Qwen3-8B \
     --local-dir /comfyui/models/HY-Motion/ckpts/Qwen3-8B
 
 # =============================================================================
+# Custom handler to scan /output/ and return NPZ/FBX files
+# =============================================================================
+COPY handler.py /handler.py
+
+# =============================================================================
 # Configuration finale
 # =============================================================================
 
 ENV PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:512
 ENV USE_HF_MODELS=1
 WORKDIR /comfyui
+
+# Override the default handler to use our custom one
+CMD ["python", "-u", "/handler.py"]
