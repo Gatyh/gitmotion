@@ -41,20 +41,20 @@ class HYMotionSaveNPZWithOutput:
             elif isinstance(motion_data, dict):
                 np.savez(filepath, **motion_data)
                 print(f"[HYMotionSaveNPZWithOutput] Saved: {filepath}")
-                return {"ui": {"files": [{"filename": filename, "subfolder": "", "type": "output"}]}}
+                return {"ui": {"images": [{"filename": filename, "subfolder": "", "type": "output"}]}}
             else:
                 data = np.array(motion_data)
             
             np.savez(filepath, motion=data)
             print(f"[HYMotionSaveNPZWithOutput] Saved: {filepath}")
             
-            return {"ui": {"files": [{"filename": filename, "subfolder": "", "type": "output"}]}}
+            return {"ui": {"images": [{"filename": filename, "subfolder": "", "type": "output"}]}}
             
         except Exception as e:
             print(f"[HYMotionSaveNPZWithOutput] Error: {e}")
             import traceback
             traceback.print_exc()
-            return {"ui": {"files": []}}
+            return {"ui": {"images": []}}
 
 NODE_CLASS_MAPPINGS = {
     "HYMotionSaveNPZWithOutput": HYMotionSaveNPZWithOutput
