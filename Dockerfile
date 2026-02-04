@@ -20,12 +20,11 @@ RUN cd /comfyui/custom_nodes && \
 # Dépendances supplémentaires pour HY-Motion
 RUN pip install accelerate bitsandbytes torchdiffeq
 
-# Structure des modèles HY-Motion
-# Le node cherche: ckpts/tencent/HY-Motion-1.0/config.yml
-# Le repo HF a un sous-dossier HY-Motion-1.0/ donc on télécharge et on déplace
+# Structure des modèles HY-Motion (selon README officiel)
+# ckpts/tencent/HY-Motion-1.0/config.yml
+# ckpts/clip-vit-large-patch14/
+# ckpts/Qwen3-8B/
 RUN mkdir -p /comfyui/models/HY-Motion/ckpts/tencent
-RUN mkdir -p /comfyui/models/HY-Motion/ckpts/openai
-RUN mkdir -p /comfyui/models/HY-Motion/ckpts/Qwen
 
 # HY-Motion-1.0 FULL - télécharger uniquement le sous-dossier HY-Motion-1.0
 RUN huggingface-cli download tencent/HY-Motion-1.0 \
@@ -34,13 +33,13 @@ RUN huggingface-cli download tencent/HY-Motion-1.0 \
     mv /tmp/hy-motion-download/HY-Motion-1.0 /comfyui/models/HY-Motion/ckpts/tencent/HY-Motion-1.0 && \
     rm -rf /tmp/hy-motion-download
 
-# CLIP model requis par HY-Motion
+# CLIP model requis par HY-Motion (directement dans ckpts/)
 RUN huggingface-cli download openai/clip-vit-large-patch14 \
-    --local-dir /comfyui/models/HY-Motion/ckpts/openai/clip-vit-large-patch14
+    --local-dir /comfyui/models/HY-Motion/ckpts/clip-vit-large-patch14
 
-# Qwen3-8B LLM FULL (pour génération de mouvement de haute qualité)
+# Qwen3-8B LLM FULL (directement dans ckpts/)
 RUN huggingface-cli download Qwen/Qwen3-8B \
-    --local-dir /comfyui/models/HY-Motion/ckpts/Qwen/Qwen3-8B
+    --local-dir /comfyui/models/HY-Motion/ckpts/Qwen3-8B
 
 # =============================================================================
 # Configuration finale
