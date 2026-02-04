@@ -20,14 +20,19 @@ RUN cd /comfyui/custom_nodes && \
 # Dépendances supplémentaires pour HY-Motion
 RUN pip install accelerate bitsandbytes torchdiffeq
 
-# Structure des modèles HY-Motion (le node cherche dans ckpts/tencent/MODEL_NAME/)
+# Structure des modèles HY-Motion
+# Le node cherche: ckpts/tencent/HY-Motion-1.0/config.yml
+# Le repo HF a un sous-dossier HY-Motion-1.0/ donc on télécharge et on déplace
 RUN mkdir -p /comfyui/models/HY-Motion/ckpts/tencent
 RUN mkdir -p /comfyui/models/HY-Motion/ckpts/openai
 RUN mkdir -p /comfyui/models/HY-Motion/ckpts/Qwen
 
-# HY-Motion-1.0 FULL (modèle complet pour qualité maximale)
+# HY-Motion-1.0 FULL - télécharger uniquement le sous-dossier HY-Motion-1.0
 RUN huggingface-cli download tencent/HY-Motion-1.0 \
-    --local-dir /comfyui/models/HY-Motion/ckpts/tencent/HY-Motion-1.0
+    --include "HY-Motion-1.0/*" \
+    --local-dir /tmp/hy-motion-download && \
+    mv /tmp/hy-motion-download/HY-Motion-1.0 /comfyui/models/HY-Motion/ckpts/tencent/HY-Motion-1.0 && \
+    rm -rf /tmp/hy-motion-download
 
 # CLIP model requis par HY-Motion
 RUN huggingface-cli download openai/clip-vit-large-patch14 \
